@@ -1,0 +1,46 @@
+name: add-all-github-organization-repos-to-a-github-team
+on:
+  workflow_dispatch:
+    inputs:
+      organization:
+        description: 'GitHub organization name'
+        type: string
+        required: true
+      github_team_name:
+        description: 'GithHub team name'
+        type: string
+        required: true
+      permission:
+        required: true
+        description: 'Permissions for Github teams across repository'
+        type: choice
+        options:
+          - admin
+          - push
+          - pull
+          - triage
+          - maintain
+
+jobs:
+  add-all-github-organization-repos-to-a-github-team:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.DEVWITHKRISHNA_PERSONAL_ACCESS_TOKEN }}
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@v4
+      - name: set up python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - name: Pipenv venv installation
+        run: |
+          pip install pipenv 
+          pipenv install --skip-lock
+      - name: Execute python program
+        run: |
+          pipenv run python3 add_repos_to_gh_teams.py --organization ${{ inputs.organization }} \
+          --github_team_name ${{ inputs.github_team_name }} --permission ${{ inputs.permission }}
+      - name: program execution completed
+        run: echo "program execution completed"
+

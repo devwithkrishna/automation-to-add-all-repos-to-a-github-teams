@@ -15,13 +15,38 @@ def list_all_github_org_repos(organization:str):
         "Authorization": f"Bearer {os.getenv('GH_TOKEN')}",
         "X-GitHub-Api-Version": "2022-11-28"
     }
-    response = requests.get(url=repo_endpoint, headers=headers)
-    response_json = response.json()
+    params = {
+        'sort':'created',
+        'per_page': 30,
+        'page': 1
+    }
+
+    # List to hold all repositories
+    all_repositories = []
+    # Paginate through all pages
+    while True:
+        # Make the GET request with query parameters
+        response = requests.get(url=repo_endpoint, headers=headers, params=params)
+
+        # Check the response status code
+        if response.status_code == 200:
+            # Parse the JSON response
+            repositories = response.json()
+            if not repositories:
+                break
+            all_repositories.extend(repositories)
+            params["page"] += 1
+        else:
+            print(f"Failed to fetch repositories: {response.status_code}")
+            break
+
+    # response = requests.get(url=repo_endpoint, headers=headers)
+    # response_json = response.json()
     repo_names = []
-    for repos in response_json:
+    for repos in all_repositories:
         repo_names.append(repos['name'])
 
-    return  repo_names
+    return repo_names
 
 
 def main():

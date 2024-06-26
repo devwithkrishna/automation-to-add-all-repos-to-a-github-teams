@@ -13,14 +13,13 @@ updates:
   commit-message:
     prefix: "dependabot python package"
   # Use reviewers to specify individual reviewers or teams of reviewers for all pull requests raised for a package manager.
-#  reviewers:
-#  - "devwithkrishna/admin"
+  reviewers:
+  - "devwithkrishna/admin"
   # Raise pull requests for version updates to pip against the `main` branch
   target-branch: "main"
   # Labels on pull requests for version updates only
   labels:
-  - "pip"
-  - "dependancies"
+  - "pip dependancies"
   # Increase the version requirements for Composer only when required
   versioning-strategy: increase-if-necessary
   # Dependabot opens a maximum of five pull requests for version updates. Once there are five open pull requests from Dependabot,

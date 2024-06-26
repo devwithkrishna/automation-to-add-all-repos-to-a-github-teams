@@ -78,6 +78,7 @@ def main():
     # function call
     repo_names = list_all_github_org_repos(organization=organization)
     print(repo_names)
+    print(f'Number of repos found: {len(repo_names)}')
     github_teams_list = list_all_github_teams_in_organization(organization=organization)
     print(github_teams_list)
     add_repos_to_github_team(organization=organization, github_team_name=github_team_name, repo_names=repo_names, github_teams_list=github_teams_list, permission=permission)
